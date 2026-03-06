@@ -12,6 +12,8 @@ const allButton = document.getElementById('all-button');
 const openButton = document.getElementById('open-button');
 const closeButton = document.getElementById('close-button');
 
+let cardSize = document.getElementById('cardSize');
+
 function buttonInactive(buttonId) {
 
 
@@ -24,28 +26,38 @@ function buttonInactive(buttonId) {
         allButton.classList.remove("btn-primary");
         openButton.classList.add("btn-primary");
         closeButton.classList.remove("btn-primary");
+        const filterData = allDataCard.filter(problem=>problem.priority==="high" || problem.priority==="medium")
+        displayData(filterData)
+
+        cardSize.innerText = filterData.length;
 
     } else if (buttonId == "close") {
         allButton.classList.remove("btn-primary");
         openButton.classList.remove("btn-primary");
         closeButton.classList.add("btn-primary");
+        const filterData = allDataCard.filter(problem=>problem.priority==="low")
+        displayData(filterData)
+
+        cardSize.innerText = filterData.length;
     }
 
 }
 
+let allDataCard = [];
 async function loadDate() {
 
     const res = await (fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues"));
     const data = await res.json();
-    displayData(data.data)
+    allDataCard = data.data;
+    displayData(allDataCard);
 
 }
 const cardContainer = document.getElementById('card-container');
 
-
-
-
 const displayData = (array) => {
+    console.log(array);
+    cardContainer.innerHTML="";
+    cardSize.innerText = array.length;
     array.forEach(problem => {
 
         const card = document.createElement("div");
@@ -100,8 +112,6 @@ const displayData = (array) => {
 
         const labelsContainer = card.querySelector(".labels-container");
 
-        console.log(labelsContainer.innerText);
-
 
         problem.labels.forEach(function (label) {
 
@@ -116,7 +126,6 @@ const displayData = (array) => {
 
         cardContainer.appendChild(card)
 
-
-    })
+    });
 }
 loadDate();
