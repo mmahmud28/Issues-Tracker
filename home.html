@@ -48,20 +48,17 @@
     <main class="w-10/12 mx-auto my-[60px] space-y-5">
 
 
-        <section class="card bg-white rounded-lg shadow-xl p-6 relative">
+        <section class="card bg-white rounded-lg shadow-xl p-6">
 
             <div class="flex gap-4">
                 <button onclick="buttonInactive('all'), loadDate()" id="all-button" class="btn btn-primary">All</button>
                 <button onclick="buttonInactive('open')" id="open-button" class="btn">Open</button>
                 <button onclick="buttonInactive('close')" id="close-button" class="btn">Closed</button>
+                 <span id="loading-spinner" class="ml-[300px] loading loading-spinner text-primary text-4xl hidden"></span>
             </div>
 
-
-            <!-- <div id="loading-spinner" class="absolute inset-0 flex items-center justify-center">
-                <span class="loading loading-spinner text-primary text-4xl"></span>
-            </div> -->
-
         </section>
+       
 
 
         <section class="card bg-white rounded-lg shadow-xl">

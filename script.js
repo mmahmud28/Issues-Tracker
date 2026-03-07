@@ -47,6 +47,7 @@ function buttonInactive(buttonId) {
 
 let allDataCard = [];
 async function loadDate() {
+    showLoading();
     const res = await (fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues"));
     const data = await res.json();
     allDataCard = data.data;
@@ -71,6 +72,7 @@ function SearchData() {
 }
 
 async function filterSearch(searchData) {
+    showLoading();
     const res = await (fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchData}`));
     const data = await res.json();
     allDataCard = data.data;
@@ -156,6 +158,7 @@ const displayData = (array) => {
         });
 
         cardContainer.appendChild(card)
+        removeLoading();
 
     });
 }
