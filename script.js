@@ -21,6 +21,7 @@ function buttonInactive(buttonId) {
         allButton.classList.add("btn-primary");
         openButton.classList.remove("btn-primary");
         closeButton.classList.remove("btn-primary");
+        searchInput.value = "";
 
     } else if (buttonId == "open") {
         allButton.classList.remove("btn-primary");
@@ -39,13 +40,13 @@ function buttonInactive(buttonId) {
         displayData(filterData)
 
         cardSize.innerText = filterData.length;
+
     }
 
 }
 
 let allDataCard = [];
 async function loadDate() {
-
     const res = await (fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues"));
     const data = await res.json();
     allDataCard = data.data;
@@ -54,8 +55,31 @@ async function loadDate() {
 }
 const cardContainer = document.getElementById('card-container');
 
+const searchInput = document.getElementById('seach-input');
+
+function SearchData() {
+    const searchData = searchInput.value;
+    filterSearch(searchData);
+
+    if(searchData==0){
+        loadDate();
+    }
+
+    allButton.classList.add("btn-primary");
+    openButton.classList.remove("btn-primary");
+    closeButton.classList.remove("btn-primary");
+}
+
+async function filterSearch(searchData) {
+    const res = await (fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchData}`));
+    const data = await res.json();
+    allDataCard = data.data;
+    displayData(allDataCard);
+}
+
 const displayData = (array) => {
     cardContainer.innerHTML = "";
+    cardSize.innerText = "";
     cardSize.innerText = array.length;
     array.forEach(problem => {
 
@@ -85,13 +109,13 @@ const displayData = (array) => {
 
                     <div class="flex justify-between mb-2">
                         <img class="w-6 h-6" src="./assets/Open-Status.png" alt="">
-                        <h2 id="priority" class="font-semibold px-6 py-2 rounded-full ${priorityClass}">${problem.priority}</h2>
+                        <h2 id="priority" class="font-semibold px-6 py-2 rounded-full ${priorityClass}">${problem.priority || "No Data Available"}</h2>
                     </div>
 
                     <div class="space-y-4">
                         <div>
-                            <h2 class="font-bold line-clamp-1">${problem.title}</h2>
-                            <p class="text-[#64748B] line-clamp-2">${problem.description}</p>
+                            <h2 class="font-bold line-clamp-1">${problem.title || "No Data Available"}</h2>
+                            <p class="text-[#64748B] line-clamp-2">${problem.description || "No Data Available"}</p>
                         </div>
 
                         <div class="flex gap-3 labels-container">
@@ -101,8 +125,8 @@ const displayData = (array) => {
                         <div class="divider"></div>
 
                         <div>
-                            <p>#1 by ${problem.author}</p>
-                            <p>${formattedDate}</p>
+                            <p>#1 by ${problem.author || "No Data Available"}</p>
+                            <p>${formattedDate || "No Data Available"}</p>
                         </div>
                     </div>
 
@@ -114,13 +138,13 @@ const displayData = (array) => {
 
         problem.labels.forEach(function (label, index) {
 
-             let icon = '<i class="fa-solid fa-bug"></i>';
-             let bgColor = 'bg-[#FEECEC] text-[#EF4444] border-[#FECACA]';
+            let icon = '<i class="fa-solid fa-bug"></i>';
+            let bgColor = 'bg-[#FEECEC] text-[#EF4444] border-[#FECACA]';
 
-             if(index===1){
-                icon ='<i class="fa-solid fa-life-ring"></i>';   
-                bgColor = 'bg-[#FFF8DB] text-[#D97706] border-[#FDE68A]';             
-             }
+            if (index === 1) {
+                icon = '<i class="fa-solid fa-life-ring"></i>';
+                bgColor = 'bg-[#FFF8DB] text-[#D97706] border-[#FDE68A]';
+            }
 
             const labelsCard = document.createElement("div");
             labelsCard.innerHTML = `
@@ -154,12 +178,12 @@ async function openModal(cardId) {
     const date = await res.json();
     const cardData = date.data;
 
-    modalTitle.textContent = cardData.title;
-    mstatus.textContent = cardData.status;
-    assignee.textContent = "Opened by " + cardData.assignee;
-    updatedAt.textContent = cardData.updatedAt.split("T")[0];
-    description.textContent = cardData.description;
-    assignee2.textContent = cardData.assignee;
+    modalTitle.textContent = cardData.title || "No Data Available";
+    mstatus.textContent = cardData.status || "No Data Available";
+    assignee.textContent = "Opened by " + cardData.assignee || "No Data Available";
+    updatedAt.textContent = cardData.updatedAt.split("T")[0] || "No Data Available";
+    description.textContent = cardData.description || "No Data Available";
+    assignee2.textContent = cardData.assignee || "No Data Available";
 
 
     mstatus.classList.remove("bg-[#00A96E]", "text-white",
@@ -170,7 +194,7 @@ async function openModal(cardId) {
     } else if (cardData.status === "open") {
         mstatus.classList.add("bg-[#00A96E]", "text-white");
     }
-    mstatus.textContent = cardData.status;
+    mstatus.textContent = cardData.status || "No Data Available";
 
     priority.classList.remove("bg-[#FEECEC]", "text-[#EF4444]",
         "bg-[#FFF6D1]", "text-[#F59E0B]",
@@ -184,17 +208,17 @@ async function openModal(cardId) {
         priority.classList.add("bg-[#EEEFF2]", "text-[#9CA3AF]");
     }
 
-    priority.textContent = cardData.priority;
+    priority.textContent = cardData.priority || "No Data Available";
     labelContainer.innerHTML = ""
     cardData.labels.forEach(function (label, index) {
 
         let icon = '<i class="fa-solid fa-bug"></i>';
-             let bgColor = 'bg-[#FEECEC] text-[#EF4444] border-[#FECACA]';
+        let bgColor = 'bg-[#FEECEC] text-[#EF4444] border-[#FECACA]';
 
-             if(index===1){
-                icon ='<i class="fa-solid fa-life-ring"></i>';   
-                bgColor = 'bg-[#FFF8DB] text-[#D97706] border-[#FDE68A]';             
-             }
+        if (index === 1) {
+            icon = '<i class="fa-solid fa-life-ring"></i>';
+            bgColor = 'bg-[#FFF8DB] text-[#D97706] border-[#FDE68A]';
+        }
 
         const labelsCard = document.createElement("div");
         labelsCard.innerHTML = `
