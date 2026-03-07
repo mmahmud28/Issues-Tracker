@@ -26,7 +26,7 @@ function buttonInactive(buttonId) {
         allButton.classList.remove("btn-primary");
         openButton.classList.add("btn-primary");
         closeButton.classList.remove("btn-primary");
-        const filterData = allDataCard.filter(problem=>problem.priority==="high" || problem.priority==="medium")
+        const filterData = allDataCard.filter(problem => problem.priority === "high" || problem.priority === "medium")
         displayData(filterData)
 
         cardSize.innerText = filterData.length;
@@ -35,7 +35,7 @@ function buttonInactive(buttonId) {
         allButton.classList.remove("btn-primary");
         openButton.classList.remove("btn-primary");
         closeButton.classList.add("btn-primary");
-        const filterData = allDataCard.filter(problem=>problem.priority==="low")
+        const filterData = allDataCard.filter(problem => problem.priority === "low")
         displayData(filterData)
 
         cardSize.innerText = filterData.length;
@@ -55,8 +55,7 @@ async function loadDate() {
 const cardContainer = document.getElementById('card-container');
 
 const displayData = (array) => {
-    console.log(array);
-    cardContainer.innerHTML="";
+    cardContainer.innerHTML = "";
     cardSize.innerText = array.length;
     array.forEach(problem => {
 
@@ -82,7 +81,7 @@ const displayData = (array) => {
         const formattedDate = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
 
         card.innerHTML = `
-         <div id="ItemDesign" class="p-4 card shadow-2xl border-t-4 ${cardBorderClass}">
+         <div onclick="openModal(${problem.id})" id="ItemDesign" class="p-4 card shadow-2xl border-t-4 ${cardBorderClass}">
 
                     <div class="flex justify-between mb-2">
                         <img class="w-6 h-6" src="./assets/Open-Status.png" alt="">
@@ -113,12 +112,20 @@ const displayData = (array) => {
         const labelsContainer = card.querySelector(".labels-container");
 
 
-        problem.labels.forEach(function (label) {
+        problem.labels.forEach(function (label, index) {
+
+             let icon = '<i class="fa-solid fa-bug"></i>';
+             let bgColor = 'bg-[#FEECEC] text-[#EF4444] border-[#FECACA]';
+
+             if(index===1){
+                icon ='<i class="fa-solid fa-life-ring"></i>';   
+                bgColor = 'bg-[#FFF8DB] text-[#D97706] border-[#FDE68A]';             
+             }
 
             const labelsCard = document.createElement("div");
             labelsCard.innerHTML = `
-             <h2 class="bg-[#FEECEC] text-red-700 font-normal px-4 text-center py-1 rounded-full whitespace-nowrap">
-                                <i class="fa-solid fa-bug text-sm"></i> ${label}
+             <h2 class="${bgColor} font-normal px-4 border text-center py-1 rounded-full whitespace-nowrap">
+                                ${icon} ${label}
                             </h2>
             `;
             labelsContainer.appendChild(labelsCard);
@@ -129,3 +136,74 @@ const displayData = (array) => {
     });
 }
 loadDate();
+
+const myModal = document.getElementById("my_modal_4");
+const modalTitle = document.getElementById("modal-title");
+const mstatus = document.getElementById("status");
+const assignee = document.getElementById("assignee");
+const updatedAt = document.getElementById("updatedAt");
+const description = document.getElementById("description");
+const assignee2 = document.getElementById("assignee2");
+const priority = document.getElementById("priority");
+const labelContainer = document.getElementById("label-container");
+const my_modal_4 = document.getElementById("my_modal_4");
+
+async function openModal(cardId) {
+    my_modal_4.classList.remove("hidden")
+    const res = await (fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${cardId}`));
+    const date = await res.json();
+    const cardData = date.data;
+
+    modalTitle.textContent = cardData.title;
+    mstatus.textContent = cardData.status;
+    assignee.textContent = "Opened by " + cardData.assignee;
+    updatedAt.textContent = cardData.updatedAt.split("T")[0];
+    description.textContent = cardData.description;
+    assignee2.textContent = cardData.assignee;
+
+
+    mstatus.classList.remove("bg-[#00A96E]", "text-white",
+        "bg-[#FEECEC]", "text-[#EF4444]");
+
+    if (cardData.status === "closed") {
+        mstatus.classList.add("bg-[#FEECEC]", "text-[#EF4444]");
+    } else if (cardData.status === "open") {
+        mstatus.classList.add("bg-[#00A96E]", "text-white");
+    }
+    mstatus.textContent = cardData.status;
+
+    priority.classList.remove("bg-[#FEECEC]", "text-[#EF4444]",
+        "bg-[#FFF6D1]", "text-[#F59E0B]",
+        "bg-[#EEEFF2]", "text-[#9CA3AF]");
+
+    if (cardData.priority === "high") {
+        priority.classList.add("bg-[#FEECEC]", "text-[#EF4444]");
+    } else if (cardData.priority === "medium") {
+        priority.classList.add("bg-[#FFF6D1]", "text-[#F59E0B]");
+    } else if (cardData.priority === "low") {
+        priority.classList.add("bg-[#EEEFF2]", "text-[#9CA3AF]");
+    }
+
+    priority.textContent = cardData.priority;
+    labelContainer.innerHTML = ""
+    cardData.labels.forEach(function (label, index) {
+
+        let icon = '<i class="fa-solid fa-bug"></i>';
+             let bgColor = 'bg-[#FEECEC] text-[#EF4444] border-[#FECACA]';
+
+             if(index===1){
+                icon ='<i class="fa-solid fa-life-ring"></i>';   
+                bgColor = 'bg-[#FFF8DB] text-[#D97706] border-[#FDE68A]';             
+             }
+
+        const labelsCard = document.createElement("div");
+        labelsCard.innerHTML = `
+            <h2 class="${bgColor} font-normal px-4 border text-center py-1 rounded-full whitespace-nowrap">
+                                ${icon} ${label}
+                            </h2>
+            `;
+        labelContainer.appendChild(labelsCard);
+    });
+
+    myModal.showModal();
+}

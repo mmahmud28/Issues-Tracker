@@ -95,11 +95,48 @@
             <div id="card-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
 
-               
+
 
 
 
             </div>
+        </section>
+
+        <section class="Modal">
+            <dialog id="my_modal_4" class="modal hidden">
+                <div class="modal-box p-8 w-11/12 max-w-5xl">
+                    <div class="space-y-4">
+                        <h1 id="modal-title" class="text-3xl font-bold">Fix broken image uploads</h1>
+                        <div class="flex justify-items-start gap-2 items-center">
+                            <p id="status" class="bg-[#00A96E] text-white rounded-full py-1 px-3 inline-block">Opened</p>
+                            <ul class="flex list-disc pl-5 gap-6">
+                                <li id="assignee" class="text-[#64748B] sty">Opened by Fahim Ahmed</li>
+                                <li id="updatedAt" class="text-[#64748B]">22/02/2026</li>
+                            </ul>
+                        </div>
+                        <div class="flex gap-4" id="label-container">
+                            
+                        </div>
+                        <p id="description" class="text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+                        <div class="flex gap-4 rounded-sm justify-stretch bg-[#dfdfdf6b] p-4">
+                            <div class="w-full space-y-2">
+                                <p>Assignee:</p>
+                                <h2 id="assignee2" class="text-xl font-semibold">Fahim Ahmed</h2>
+                            </div>
+                            <div class="w-full space-y-2">
+                                <p>Priority:</p>
+                                <p id="priority" class="rounded-full py-1 px-3 inline-block">High</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-action">
+                        <form method="dialog">
+                            <!-- if there is a button, it will close the modal -->
+                            <button class="btn btn-primary">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </section>
 
 
