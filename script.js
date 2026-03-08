@@ -54,6 +54,7 @@ async function loadDate() {
     displayData(allDataCard);
 
 }
+const cardBox = document.getElementById('card-container-box');
 const cardContainer = document.getElementById('card-container');
 
 const searchInput = document.getElementById('seach-input');
@@ -80,6 +81,12 @@ async function filterSearch(searchData) {
 }
 
 const displayData = (array) => {
+    if(array.length==0){
+        removeLoading();
+        cardBox.classList.add("hidden");
+    }else{
+        cardBox.classList.remove("hidden");
+    }
     cardContainer.innerHTML = "";
     cardSize.innerText = "";
     cardSize.innerText = array.length;
