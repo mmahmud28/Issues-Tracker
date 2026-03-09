@@ -190,7 +190,7 @@ async function openModal(cardId) {
 
     modalTitle.textContent = cardData.title || "No Data Available";
     mstatus.textContent = cardData.status || "No Data Available";
-    assignee.textContent = "Opened by " + cardData.assignee || "No Data Available";
+    assignee.textContent = "Opened by " + (cardData.assignee || "No Data");
     updatedAt.textContent = cardData.updatedAt.split("T")[0] || "No Data Available";
     description.textContent = cardData.description || "No Data Available";
     assignee2.textContent = cardData.assignee || "No Data Available";
