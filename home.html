@@ -17,7 +17,7 @@
 
 <body class="font">
     <header>
-        <div class="navbar bg-base-100 shadow-sm flex">
+        <div class="navbar bg-base-100 flex shadow-sm">
             <div class="flex-1">
                 <div class="flex items-center gap-1">
                     <img class="w-9 h-9" src="./assets/github-logo.png" alt="">
@@ -45,7 +45,7 @@
         </div>
     </header>
 
-    <main class="w-10/12 mx-auto my-[60px] space-y-5">
+    <main class="w-11/12 mx-auto my-[60px] space-y-5">
 
 
         <section class="card bg-white rounded-lg shadow-xl p-6">
@@ -54,7 +54,7 @@
                 <button onclick="buttonInactive('all'), loadDate()" id="all-button" class="btn btn-primary">All</button>
                 <button onclick="buttonInactive('open')" id="open-button" class="btn">Open</button>
                 <button onclick="buttonInactive('close')" id="close-button" class="btn">Closed</button>
-                 <span id="loading-spinner" class="ml-[300px] loading loading-spinner text-primary text-4xl hidden"></span>
+                <span id="loading-spinner" class="ml-[300px] loading loading-spinner text-primary text-4xl hidden"></span>
             </div>
 
         </section>
@@ -89,7 +89,7 @@
 
 
         <section id="card-container-box" class="p-6 card bg-white rounded-lg shadow-xl">
-            <div id="card-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div id="card-container" class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
 
 
@@ -101,7 +101,7 @@
 
         <section class="Modal">
             <dialog id="my_modal_4" class="modal hidden">
-                <div class="modal-box p-8 w-11/12 max-w-5xl">
+                <div class="modal-box p-8 w-6/12 max-w-5xl">
                     <div class="space-y-4">
                         <h1 id="modal-title" class="text-3xl font-bold">Fix broken image uploads</h1>
                         <div class="flex justify-items-start gap-2 items-center">

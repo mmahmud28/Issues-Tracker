@@ -157,9 +157,9 @@ const displayData = (array) => {
 
             const labelsCard = document.createElement("div");
             labelsCard.innerHTML = `
-             <h2 class="${bgColor} font-normal px-4 border text-center py-1 rounded-full whitespace-nowrap">
+             <P class="${bgColor} font-normal px-2 border text-center py-1 rounded-full whitespace-nowrap">
                                 ${icon} ${label}
-                            </h2>
+                            </P>
             `;
             labelsContainer.appendChild(labelsCard);
         });
