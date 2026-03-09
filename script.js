@@ -63,7 +63,7 @@ function SearchData() {
     const searchData = searchInput.value;
     filterSearch(searchData);
 
-    if(searchData==0){
+    if (searchData.trim() === "") {
         loadDate();
     }
 
@@ -81,10 +81,10 @@ async function filterSearch(searchData) {
 }
 
 const displayData = (array) => {
-    if(array.length==0){
+    if (array.length == 0) {
         removeLoading();
         cardBox.classList.add("hidden");
-    }else{
+    } else {
         cardBox.classList.remove("hidden");
     }
     cardContainer.innerHTML = "";
